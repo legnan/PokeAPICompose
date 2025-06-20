@@ -75,7 +75,6 @@ fun PokemonListScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // ... tu contenido existente
             when (state) {
                 is PokemonListState.Loading -> LoadingView(modifier = Modifier.align(Alignment.Center))
                 is PokemonListState.Success -> {
