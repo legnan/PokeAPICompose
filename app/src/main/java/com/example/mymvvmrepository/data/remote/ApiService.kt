@@ -1,4 +1,4 @@
-package com.example.mymvvmrepository.data.api
+package com.example.mymvvmrepository.data.remote
 
 import com.example.mymvvmrepository.data.model.PokemonDetailResponse
 import com.example.mymvvmrepository.data.model.PokemonListResponse
@@ -9,8 +9,7 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("pokemon")
     suspend fun getPokemons(
-        @Query("limit") limit: Int = 20,
-        @Query("offset") offset: Int = 0
+        @Query("limit") limit: Int = 20
     ): PokemonListResponse
 
     @GET("pokemon/{id}")

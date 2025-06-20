@@ -2,7 +2,7 @@ package com.example.mymvvmrepository.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymvvmrepository.data.api.ApiService
+import com.example.mymvvmrepository.data.repository.PokemonRepositoryImpl
 import com.example.mymvvmrepository.domain.model.Pokemon
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PokemonViewModel @Inject constructor(
-    private val api: ApiService
+    private val pokemonRepository: PokemonRepositoryImpl
 ) : ViewModel() {
     private val _state = MutableStateFlow<PokemonListState>(PokemonListState.Loading)
     val state: StateFlow<PokemonListState> = _state
@@ -24,15 +24,18 @@ class PokemonViewModel @Inject constructor(
     fun loadPokemons() {
         viewModelScope.launch {
             _state.value = PokemonListState.Loading
-            try {
-                val response = api.getPokemons(limit = 25)
-                _state.value = PokemonListState.Success(response.results)
-            } catch (e: Exception) {
-                _state.value = PokemonListState.Error(
-                    message = "Error: ${e.localizedMessage ?: "Desconocido"}",
-                    retryAction = { loadPokemons() }
-                )
-            }
+
+            pokemonRepository.getPokemons().fold(
+                onSuccess = { pokemons ->
+                    _state.value = PokemonListState.Success(pokemons)
+                },
+                onFailure = { error ->
+                    _state.value = PokemonListState.Error(
+                        message = "Error: ${error.localizedMessage ?: "Desconocido"}",
+                        retryAction = { loadPokemons() }
+                    )
+                }
+            )
         }
     }
 }

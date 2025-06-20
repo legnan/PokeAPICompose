@@ -1,7 +1,6 @@
 package com.example.mymvvmrepository.data.model
 
 import com.example.mymvvmrepository.domain.model.PokemonDetail
-import com.google.gson.annotations.SerializedName
 
 
 data class PokemonDetailResponse(

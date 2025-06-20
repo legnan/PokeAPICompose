@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ErrorView(
     message: String,
-    onRetry: () -> Unit, // Callback para reintentar
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -36,7 +36,7 @@ fun ErrorView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Icono de error
+
             Icon(
                 imageVector = Icons.Filled.Warning,
                 contentDescription = "Error",
@@ -44,7 +44,6 @@ fun ErrorView(
                 tint = MaterialTheme.colorScheme.error
             )
 
-            // Mensaje personalizable
             Text(
                 text = message,
                 style = MaterialTheme.typography.titleMedium,
@@ -53,7 +52,6 @@ fun ErrorView(
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
 
-            // Botón de reintento
             Button(
                 onClick = onRetry,
                 colors = ButtonDefaults.buttonColors(
